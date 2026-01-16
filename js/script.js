@@ -53,26 +53,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
   initHeaderInteractions();
 
-  // Inject concert year navigation if placeholder exists
-  const navHost = await injectHTML('concert-year-nav', 'concert/year-nav.html');
-  if (navHost) {
-    // Highlight current year link via aria-current + class (no DOM replacement)
+  // Inject year navigation blocks (concert/history) when placeholders exist
+  const [concertNav, historyNav] = await Promise.all([
+    injectHTML('concert-year-nav', 'concert/year-nav.html'),
+    injectHTML('history-year-nav', 'history/year-nav.html')
+  ]);
+
+  const enhanceYearNav = (navHost, section, defaultHref) => {
+    if (!navHost) return;
     const anchors = Array.from(navHost.querySelectorAll('a'));
-    const cur = (location.pathname || '')
-      .replace(/\\+/g, '/')
-      .replace(/.*\/concert\//, 'concert/');
-    const applyCurrent = (a) => {
-      a.setAttribute('aria-current', 'page');
-      a.classList.add('is-current');
+    if (!anchors.length) return;
+
+    const applyCurrent = (anchor) => {
+      anchor.setAttribute('aria-current', 'page');
+      anchor.classList.add('is-current');
     };
-    const match = anchors.find(a => a.getAttribute('href') === cur);
-    if (match) {
-      applyCurrent(match);
-    } else if (cur.endsWith('/concert/') || cur.endsWith('/concert')) {
-      const a = anchors.find(a => a.getAttribute('href') === 'concert/concert.html');
-      if (a) applyCurrent(a);
+
+    const pathname = (location.pathname || '').replace(/\/+/g, '/');
+    const sectionPath = `${section}/`;
+    const idx = pathname.lastIndexOf(`/${sectionPath}`);
+    const relative = idx >= 0
+      ? pathname.slice(idx + 1)
+      : pathname.replace(/^\/+/, '');
+
+    const matched = anchors.find(a => a.getAttribute('href') === relative);
+    if (matched) {
+      applyCurrent(matched);
+      return;
     }
-  }
+
+    const normalized = pathname.replace(/\/+$/, '');
+    if (
+      normalized.endsWith(`/${section}`) ||
+      normalized.endsWith(`/${sectionPath}`)
+    ) {
+      const fallback = anchors.find(a => a.getAttribute('href') === defaultHref);
+      if (fallback) applyCurrent(fallback);
+    }
+  };
+
+  enhanceYearNav(concertNav, 'concert', 'concert/concert.html');
+  enhanceYearNav(historyNav, 'history', 'history/history.html');
 
   // Sticky (JS-driven): ブラウザ差を無視して常にスクロール量で固定化を制御
   (function initStickyFixed() {

@@ -334,6 +334,10 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* シャドウ効果 */
 }
 
+.card ol{
+  list-style-type: none;
+}
+
 /* ── Buttons ──────────────────────────────────── */
 .btn-primary {
   display: inline-block; /* インラインブロック */
