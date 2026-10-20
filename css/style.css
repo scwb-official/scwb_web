@@ -720,16 +720,34 @@ body.menu-open {
    ================================================================ */
 .sns-embeds {
   display: grid;
-  /* min() を挟むことで 320px 未満の端末でもトラックが溢れない */
-  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
   align-items: start;
-  justify-items: center;
+  justify-items: stretch;
+}
+
+.sns-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.sns-card-heading h3,
+.sns-card-heading p {
+  margin: 0;
+}
+
+.sns-card-heading p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
 }
 
 .sns-card {
   width: 100%;
-  max-width: 570px;
+  max-width: none;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -744,6 +762,10 @@ body.menu-open {
 .sns-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+}
+
+.sns-card > .btn-primary {
+  margin-top: 0;
 }
 
 .sns-card h3 {
@@ -765,24 +787,44 @@ body.menu-open {
   height: 100%;
 }
 
-/* ── Instagram（正方形にロゴを中央配置） ───────── */
-.sns-card--insta { max-width: 340px; }
+/* ── Instagramの投稿 ──────────────────────────── */
+.sns-card--insta {
+  align-items: stretch;
+}
 
-.sns-card--insta .sns-frame {
-  aspect-ratio: 1 / 1;
+.instagram-posts {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-border);
+}
+
+.instagram-post {
+  flex: 0 0 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   background: #fff;
+  scroll-snap-align: start;
 }
 
-.sns-card--insta .sns-frame img {
-  width: 45%;
-  height: auto;
-  object-fit: contain;
-  margin: 0 auto;
+.instagram-post .instagram-media {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
+.instagram-post .instagram-media > a {
+  color: var(--color-primary-dark);
+}
 /* ── YouTube ──────────────────────────────────── */
 .sns-card--yt .sns-frame {
   aspect-ratio: 16 / 9;
@@ -804,9 +846,27 @@ body.menu-open {
   margin-inline: auto;
 }
 
-@media (min-width: 1025px) {
-  .sns-card { max-width: 640px; }
-  .sns-card--insta { max-width: 380px; }
+@media (max-width: 900px) {
+  .sns-embeds {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .sns-embeds {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sns-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .sns-card-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 

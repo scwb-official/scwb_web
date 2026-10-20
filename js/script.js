@@ -19,6 +19,11 @@
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  function resolveBaseHref() {
+    var base = document.querySelector('base');
+    return base ? (base.getAttribute('href') || './') : './';
+  }
+
   /** リサイズ等の連続イベントを間引く */
   function debounce(fn, wait) {
     var timer = null;
@@ -28,6 +33,14 @@
       if (timer) clearTimeout(timer);
       timer = setTimeout(function () { fn.apply(self, args); }, wait || 150);
     };
+  }
+
+  function isSameImageSet(current, next) {
+    if (!current || !next || current.length !== next.length) return false;
+    for (var i = 0; i < current.length; i += 1) {
+      if (current[i] !== next[i]) return false;
+    }
+    return true;
   }
 
   /* ==============================================================
@@ -64,6 +77,15 @@
         console.error(err);
         return null;
       });
+  }
+
+  function loadSharedParts() {
+    return Promise.all([
+      injectHTML('include-header', 'common/header.html', true),
+      injectHTML('include-footer', 'common/footer.html', true),
+      injectHTML('concert-year-nav', 'concert/year-nav.html'),
+      injectHTML('history-year-nav', 'history/year-nav.html')
+    ]);
   }
 
   /* ==============================================================
@@ -205,6 +227,9 @@
     var desktopImages = ['desktop1.jpg', 'desktop2.jpg', 'desktop3.jpg'];
     var mobileImages = ['mobile1.jpg', 'mobile2.jpg', 'mobile3.jpg',
                         'mobile4.jpg', 'mobile5.jpg', 'mobile6.jpg'];
+    var getImagesForViewport = function (isMobile) {
+      return isMobile ? mobileImages : desktopImages;
+    };
 
     // CSS のブレークポイントと同じ基準でモバイル判定
     var mobileMQ = window.matchMedia('(max-width: 767.98px)');
@@ -220,19 +245,13 @@
     });
     hero.insertBefore(media, hero.firstChild);
 
-    var images = mobileMQ.matches ? mobileImages : desktopImages;
+    var images = getImagesForViewport(mobileMQ.matches);
     var index = 0;
     var active = 0;
 
-    function baseHref() {
-      // <base href> があるページでも img/ を正しく解決させる
-      var base = document.querySelector('base');
-      return base ? base.getAttribute('href') : './';
-    }
-
     function show(i) {
       var next = (active + 1) % 2;
-      layers[next].style.backgroundImage = 'url("' + baseHref() + 'img/' + images[i] + '")';
+      layers[next].style.backgroundImage = 'url("' + resolveBaseHref() + 'img/' + images[i] + '")';
       layers[next].classList.add('is-active');
       layers[active].classList.remove('is-active');
       active = next;
@@ -242,8 +261,8 @@
 
     // 端末幅が変わったら画像セットを差し替える
     var onBreakpointChange = function () {
-      var nextImages = mobileMQ.matches ? mobileImages : desktopImages;
-      if (nextImages === images) return;
+      var nextImages = getImagesForViewport(mobileMQ.matches);
+      if (isSameImageSet(images, nextImages)) return;
       images = nextImages;
       index = 0;
       show(index);
@@ -343,16 +362,8 @@
     window.addEventListener('orientationchange', debounce(apply, 250));
   }
 
-  /* ==============================================================
-     起動
-     ============================================================== */
-  document.addEventListener('DOMContentLoaded', function () {
-    Promise.all([
-      injectHTML('include-header', 'common/header.html', true),
-      injectHTML('include-footer', 'common/footer.html', true),
-      injectHTML('concert-year-nav', 'concert/year-nav.html'),
-      injectHTML('history-year-nav', 'history/year-nav.html')
-    ]).then(function (results) {
+  function initSite() {
+    loadSharedParts().then(function (results) {
       var concertNav = results[2];
       var historyNav = results[3];
 
@@ -366,5 +377,10 @@
       initReveal();
       initFacebookPlugin();
     });
-  });
+  }
+
+  /* ==============================================================
+     起動
+     ============================================================== */
+  document.addEventListener('DOMContentLoaded', initSite);
 })();
