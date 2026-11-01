@@ -35,4 +35,5 @@
 ## よくある作業
 - 新しい年ページを追加する: `docs/ADDING_CONCERT_YEAR.md` を参照
 - 画像を追加する: `concert/image/` に配置し、`<img ... loading="lazy" decoding="async">` で参照
+- お知らせを追加する: `news/news.html` と `index.html`（トップの「お知らせ」欄）の両方に、同じ形式の `<li class="news-item">` を先頭へ追加する。トップは最新4件程度を残して古いものを削除
 - 共通ナビの修正: `concert/year-nav.html` を編集（ソート順と表記ゆれに注意）

@@ -10,7 +10,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
   <!-- FontAwesome: アイコンライブラリ -->
   <link
     rel="stylesheet"
@@ -21,7 +21,7 @@
   <!-- ファビコン -->
   <link rel="icon" type="image/png" href="img/icon.png">
 </head>
-<body>
+<body class="is-home">
 <div id="include-header"></div>
 
   <!-- ====================
@@ -30,50 +30,167 @@
   <main id="main">
     <!-- ヒーローセクション -->
     <section class="hero">
-      <div class="hero-content">
-        <h1>諏訪の地に音楽を届けます♪</h1>
-        <p>結成32年目の【すわしすい】🎺</p>
-        <a href="sindai.html" class="btn-primary">詳しく見る</a>
+      <div class="container hero-content">
+        <p class="hero-eyebrow">SUWA CITY WIND BAND</p>
+        <h1>諏訪の地に、<br>音楽を届けます。</h1>
+        <p class="hero-lead">1994年の発足から32年目。<br>年齢も職業もさまざまな仲間が集う、市民の吹奏楽団です。</p>
+        <div class="hero-actions">
+          <a href="sindai.html" class="btn-primary btn-lg">新入団員募集 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="concert/concert.html" class="btn-ghost btn-lg">コンサート情報</a>
+        </div>
+      </div>
+      <a href="index.html#featured" class="hero-scroll" aria-label="下へスクロール"><span>SCROLL</span></a>
+    </section>
+
+    <!-- 注目イベント（定期演奏会） -->
+    <section id="featured" class="featured fade-up">
+      <div class="container">
+        <article class="featured-card">
+          <a href="teien/teien26.html" class="featured-media" tabindex="-1" aria-hidden="true">
+            <img src="teien/image/teien26_1.jpg" alt="" width="1200" height="1700" loading="lazy" decoding="async">
+          </a>
+          <div class="featured-body">
+            <p class="featured-tag">PICK UP</p>
+            <h2>第32回定期演奏会</h2>
+            <p class="featured-sub">第2部「Curtain Up! ～心に響くミュージカルメロディー～」</p>
+            <dl class="featured-meta">
+              <div><dt><i class="far fa-calendar" aria-hidden="true"></i>日時</dt><dd>2026年12月6日（日）14:00開演</dd></div>
+              <div><dt><i class="fas fa-location-dot" aria-hidden="true"></i>会場</dt><dd>茅野市民館 マルチホール</dd></div>
+              <div><dt><i class="fas fa-ticket" aria-hidden="true"></i>入場</dt><dd>無料・全席自由</dd></div>
+            </dl>
+            <p class="countdown" data-countdown="2026-12-06T14:00:00+09:00" hidden>
+              開演まで あと <strong class="countdown-num">--</strong> 日
+            </p>
+            <a href="teien/teien26.html" class="btn-primary">特設ページを見る <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </article>
       </div>
     </section>
 
-    <!-- お知らせセクション -->
-    <section id="news" class="section fade-up">
+    <!-- 数字で見る -->
+    <section class="stats fade-up" aria-label="数字で見る諏訪市民吹奏楽団">
+      <div class="container stats-grid">
+        <div class="stat">
+          <p class="stat-label">発足</p>
+          <p class="stat-value"><span class="count-up" data-to="1994">1994</span><small>年</small></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">定期演奏会</p>
+          <p class="stat-value"><span class="count-up" data-to="32">32</span><small>回目</small></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">団員数</p>
+          <p class="stat-value"><small>約</small><span class="count-up" data-to="40">40</span><small>名</small></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">年間の演奏機会（2025年度）</p>
+          <p class="stat-value"><span class="count-up" data-to="7">7</span><small>回</small></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 楽団紹介 -->
+    <section id="about" class="section about fade-up">
+      <div class="container about-grid">
+        <div class="about-media">
+          <img src="img/desktop2.jpg" alt="ホールのステージで演奏する諏訪市民吹奏楽団" width="2304" height="1536" loading="lazy" decoding="async">
+        </div>
+        <div class="about-body">
+          <div class="section-head">
+            <p class="eyebrow">ABOUT US</p>
+            <h2><span class="nobr">音楽が好き。</span><span class="nobr">その気持ちがあれば、</span><span class="nobr">誰でも。</span></h2>
+          </div>
+          <p>諏訪市民吹奏楽団（すわしすい）は1994年6月に発足した、市民参加型の吹奏楽団です。技術レベルや年齢、職業を問わず、幅広いメンバーが集い、自由で楽しい雰囲気の中で演奏活動を行っています。</p>
+          <p>発足当初より地域の皆さまに後援会を組織していただき、恵まれた環境で活動を続けています。</p>
+          <a href="shokai.html" class="link-arrow">楽団紹介を見る</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 活動紹介 -->
+    <section id="activity" class="section section--muted fade-up">
       <div class="container">
-        <h2>お知らせ</h2>
-
-        <div class="card">
-          <h3>第32回定期演奏会 特設ページ公開中</h3>
-          <p>開催概要やプログラム、会場へのアクセスはこちらからご覧いただけます。</p>
-          <a href="teien/teien26.html" class="btn-primary">第32回定期演奏会 特設ページを見る</a>
+        <div class="section-head section-head--center">
+          <p class="eyebrow">ACTIVITY</p>
+          <h2>年間の主な活動</h2>
         </div>
-
-        <div class="card">
-          <strong>2026年10月19日</strong><br>
-          <a href="news/2026/20261019.html">上社の杜音楽祭</a>
+        <div class="activity-grid">
+          <a href="concert/concert.html" class="activity-card">
+            <div class="activity-media"><img src="concert/image/ph260516.jpg" alt="" loading="lazy" decoding="async"></div>
+            <div class="activity-body">
+              <p class="activity-month">MAY</p>
+              <h3>並木DEコンサート</h3>
+              <p>上諏訪駅横の公園で開かれる街角コンサート。1998年から毎年出演しています。</p>
+            </div>
+          </a>
+          <a href="concert/concert.html" class="activity-card">
+            <div class="activity-media"><img src="concert/image/ph251019.jpg" alt="" loading="lazy" decoding="async"></div>
+            <div class="activity-body">
+              <p class="activity-month">OCTOBER</p>
+              <h3>上社の杜音楽祭</h3>
+              <p>諏訪大社本宮前で、市内の中学生と100人編成の大合奏をお届けします。</p>
+            </div>
+          </a>
+          <a href="concert/concert.html" class="activity-card">
+            <div class="activity-media"><img src="concert/image/ph251207a.jpg" alt="" loading="lazy" decoding="async"></div>
+            <div class="activity-body">
+              <p class="activity-month">DECEMBER</p>
+              <h3>定期演奏会</h3>
+              <p>1年の集大成となる当団最大の行事。毎年趣向を凝らしたプログラムで開催します。</p>
+            </div>
+          </a>
         </div>
-        <div class="card">
-          <strong>2026年10月11日</strong><br>
-          <a href="news/2026/20261011.html">2回目の日曜練習を行いました</a>
-        </div>
-        <div class="card">
-          <strong>2026年10月04日</strong><br>
-          <a href="news/2026/20261004.html">定期演奏会まで残り2ヶ月！</a>
-        </div>
-        <div class="card">
-          <strong>2026年10月01日</strong><br>
-          <a href="news/2026/20261001.html">10月練習日程</a>
-        </div>
-
         <div class="news-actions">
-          <a href="news/news.html" class="btn-outline">お知らせ一覧を見る</a>
+          <a href="history/history.html" class="btn-outline">これまでの演奏記録</a>
         </div>
+      </div>
+    </section>
+
+    <!-- お知らせセクション
+         更新時は news/news.html と同じ形式の <li> を先頭に追加し、古いものを削除してください（4件程度） -->
+    <section id="news" class="section fade-up">
+      <div class="container news-layout">
+        <div class="section-head">
+          <p class="eyebrow">NEWS</p>
+          <h2>お知らせ</h2>
+          <a href="news/news.html" class="link-arrow">一覧を見る</a>
+        </div>
+
+        <ul class="news-list news-list--home">
+          <li class="news-item">
+            <span class="news-date">2026年10月28日</span>
+            <div class="news-title">
+              <a href="news/2026/20261028.html">木管セクション練習</a>
+            </div>
+          </li>
+          <li class="news-item">
+            <span class="news-date">2026年10月19日</span>
+            <div class="news-title">
+              <a href="news/2026/20261019.html">上社の杜音楽祭</a>
+            </div>
+          </li>
+          <li class="news-item">
+            <span class="news-date">2026年10月11日</span>
+            <div class="news-title">
+              <a href="news/2026/20261011.html">2回目の日曜練習を行いました</a>
+            </div>
+          </li>
+          <li class="news-item">
+            <span class="news-date">2026年10月04日</span>
+            <div class="news-title">
+              <a href="news/2026/20261004.html">定期演奏会まで残り2ヶ月！</a>
+            </div>
+          </li>
+        </ul>
       </div>
     </section>
     <!-- SNS埋め込みセクション -->
-    <section id="sns" class="section fade-up">
+    <section id="sns" class="section section--muted fade-up">
       <div class="container">
-        <h2>SNS</h2>
+        <div class="section-head section-head--center">
+          <p class="eyebrow">FOLLOW US</p>
+          <h2>SNS</h2>
+        </div>
         <div class="sns-embeds">
 
           <!-- Instagram -->
@@ -141,41 +258,23 @@
     <!-- 活動時間・場所セクション -->
     <section id="activities" class="section fade-up">
       <div class="container">
-        <h2>活動時間・場所</h2>
+        <div class="section-head section-head--center">
+          <p class="eyebrow">ACCESS</p>
+          <h2>練習日・練習会場</h2>
+        </div>
         <div class="wrapper">
-          <!-- 活動場所情報 -->
           <div class="location-info">
             <h3 class="sub-title">諏訪中学校 小体育館</h3>
-            <p>
-              住所：長野県諏訪市清水3丁目3619-3<br>
-              活動時間：19:00〜21:00<br>
-              火曜日：合奏練習、木曜日：個人練習
-            </p>
+            <dl class="info-list">
+              <div><dt>住所</dt><dd>長野県諏訪市清水3丁目3619-3</dd></div>
+              <div><dt>時間</dt><dd>19:00〜21:00</dd></div>
+              <div><dt>火曜日</dt><dd>合奏練習</dd></div>
+              <div><dt>木曜日</dt><dd>個人・パート練習</dd></div>
+            </dl>
+            <p class="note">見学はいつでも歓迎です。事前にご連絡いただけるとスムーズです。</p>
           </div>
-          <!-- 地図埋め込み -->
           <div class="location-map">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1140.7211504668137!2d138.11959034832887!3d36.03380397025016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601c5432cb5208c5%3A0x2d975ca7a7d0b740!2z6KuP6Kiq5biC56uL6KuP6Kiq5Lit5a2m5qCh!5e0!3m2!1sja!2sjp!4v1745564184221!5m2!1sja!2sjp" title="諏訪中学校（練習会場）の地図" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 問い合わせセクション -->
-    <section id="contact" class="section contact-section fade-up">
-      <div class="container">
-        <h2>お問い合わせ</h2>
-        <div class="contact-wrapper">
-          <!-- メールお問い合わせ -->
-          <div class="contact-item">
-            <i class="fas fa-envelope" aria-hidden="true"></i>
-            <h3>メール</h3>
-            <a href="mailto:info@scwb.net">info@scwb.net</a>
-          </div>
-          <!-- 電話お問い合わせ -->
-          <div class="contact-item">
-            <i class="fas fa-phone-alt" aria-hidden="true"></i>
-            <h3>お電話（事務局）</h3>
-            <a href="tel:080-6933-4114">080-6933-4114</a>
           </div>
         </div>
       </div>
