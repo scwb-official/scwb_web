@@ -8,6 +8,7 @@
    5. ヒーロー背景のクロスフェード
    6. スクロール表示アニメーション
    7. Facebook ページプラグインのレスポンシブ調整
+   8. トップページの演出（スクロール時のヘッダー / カウントダウン / 数字）
    ================================================================ */
 (function () {
   'use strict';
@@ -117,9 +118,10 @@
      ベース URL（トップページ等）へ飛んでしまう。現在のパスを付け直す。
      ============================================================== */
   function fixSkipLink() {
-    var link = document.querySelector('.skip-link');
-    if (!link) return;
-    link.setAttribute('href', location.pathname + location.search + '#main');
+    var links = document.querySelectorAll('.skip-link, .page-top');
+    Array.prototype.forEach.call(links, function (link) {
+      link.setAttribute('href', location.pathname + location.search + '#main');
+    });
   }
 
   /* ==============================================================
@@ -362,6 +364,69 @@
     window.addEventListener('orientationchange', debounce(apply, 250));
   }
 
+  /* ==============================================================
+     8. トップページの演出
+     ============================================================== */
+  /** 少しスクロールしたらヘッダーに影を付ける */
+  function initHeaderShadow() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+
+    var apply = function () {
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+    apply();
+    window.addEventListener('scroll', apply, { passive: true });
+  }
+
+  /** data-countdown の日時までの残り日数を表示（過ぎたら非表示のまま） */
+  function initCountdown() {
+    var el = document.querySelector('[data-countdown]');
+    if (!el) return;
+
+    var target = new Date(el.getAttribute('data-countdown'));
+    var days = Math.ceil((target - new Date()) / 86400000);
+    if (isNaN(days) || days < 1) return;
+
+    el.querySelector('.countdown-num').textContent = days;
+    el.hidden = false;
+  }
+
+  /** 画面に入ったら数字を 0 から data-to までカウントアップ */
+  function initCountUp() {
+    var nums = document.querySelectorAll('.count-up');
+    if (!nums.length || !('IntersectionObserver' in window) || prefersReducedMotion.matches) return;
+
+    function run(el) {
+      var to = parseInt(el.getAttribute('data-to'), 10);
+      // 年号のような大きい数は途中から数える（0 からだと間延びする）
+      var from = to > 1000 ? to - 40 : 0;
+      var start = null;
+      var duration = 1400;
+
+      function step(ts) {
+        if (start === null) start = ts;
+        var t = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(from + (to - from) * eased);
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    var observer = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        run(entry.target);
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.6 });
+
+    Array.prototype.forEach.call(nums, function (el) {
+      observer.observe(el);
+    });
+  }
+
   function initSite() {
     loadSharedParts().then(function (results) {
       var concertNav = results[2];
@@ -376,6 +441,9 @@
       initHero();
       initReveal();
       initFacebookPlugin();
+      initHeaderShadow();
+      initCountdown();
+      initCountUp();
     });
   }
 
