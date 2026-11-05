@@ -1,13 +1,14 @@
 /* ================================================================
    諏訪市民吹奏楽団 — 共通スクリプト
    ----------------------------------------------------------------
+   0. アクセス解析（Google アナリティクス 4）
    1. 共通パーツ（ヘッダー / フッター / 年ナビ）の読み込み
    2. ヘッダー高の計測
    3. モバイルメニューの開閉
    4. 年ナビの現在地強調
    5. ヒーロー背景のクロスフェード
    6. スクロール表示アニメーション
-   7. Facebook ページプラグインのレスポンシブ調整
+   7. Facebook 投稿の埋め込み
    8. トップページの演出（スクロール時のヘッダー / カウントダウン / 数字）
    ================================================================ */
 (function () {
@@ -17,6 +18,27 @@
      読み込み直後に付けることで、JS が動かない環境では
      コンテンツが最初から見える状態を保つ。 */
   document.documentElement.classList.add('js');
+
+  /* ==============================================================
+     0. アクセス解析（Google アナリティクス 4）
+     全ページがこのファイルを読み込むため、ここで一括して計測タグを入れる。
+     ローカル確認中（localhost / ファイル直接表示）は計測しない。
+     ============================================================== */
+  (function loadAnalytics() {
+    var GA_ID = 'G-YLQLQX6D2R';
+    var host = location.hostname;
+    if (location.protocol === 'file:' || host === 'localhost' || host === '127.0.0.1' || host === '') return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID);
+
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  })();
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -162,6 +184,36 @@
     // Esc キーで閉じる
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && isOpen()) setState(false, true);
+    });
+
+    // 開いている間は Tab / Shift+Tab をメニュー内で循環させる（フォーカストラップ）
+    var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), ' +
+                    'select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    function getFocusable() {
+      return Array.prototype.filter.call(overlay.querySelectorAll(FOCUSABLE), function (el) {
+        return el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0;
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !isOpen()) return;
+      var items = getFocusable();
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      var current = document.activeElement;
+      var inside = overlay.contains(current);
+
+      if (e.shiftKey) {
+        if (!inside || current === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (!inside || current === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     // デスクトップ幅に戻ったら閉じる（メニューが開いたまま残るのを防ぐ）
@@ -327,41 +379,22 @@
   }
 
   /* ==============================================================
-     7. Facebook ページプラグイン
-     プラグインは実寸ピクセルでしか描画できないため、
-     コンテナ幅を実測して src と高さを合わせる。
+     7. Facebook 投稿の埋め込み
+     ページプラグイン（タイムライン）はログインしていない閲覧者に
+     投稿が表示されないため、個別投稿（.fb-post）を公式 SDK で描画する。
+     SDK が投稿の高さに合わせて iframe を自動で伸縮させる。
      ============================================================== */
   function initFacebookPlugin() {
-    var frame = document.getElementById('fbPage');
-    if (!frame) return;
+    if (!document.querySelector('.fb-post')) return;
+    if (document.getElementById('facebook-jssdk')) return;
 
-    var PAGE = 'https%3A%2F%2Fwww.facebook.com%2FSuwaCityWindBand';
-    var BASE = 'https://www.facebook.com/plugins/page.php?href=' + PAGE +
-               '&tabs=timeline&hide_cover=false&show_facepile=true&adapt_container_width=true';
-
-    var lastWidth = 0;
-
-    function apply() {
-      var host = frame.parentElement;
-      if (!host) return;
-
-      var available = Math.floor(host.getBoundingClientRect().width);
-      // Facebook 側の許容範囲は 180〜500px
-      var width = Math.max(180, Math.min(500, available));
-      var height = width <= 320 ? 560 : (width <= 420 ? 620 : 700);
-
-      // 幅が実質変わっていないなら再読み込みしない（ちらつき防止）
-      if (Math.abs(width - lastWidth) < 8) return;
-      lastWidth = width;
-
-      frame.style.width = width + 'px';
-      frame.style.height = height + 'px';
-      frame.src = BASE + '&width=' + width + '&height=' + height;
-    }
-
-    apply();
-    window.addEventListener('resize', debounce(apply, 250), { passive: true });
-    window.addEventListener('orientationchange', debounce(apply, 250));
+    var js = document.createElement('script');
+    js.id = 'facebook-jssdk';
+    js.async = true;
+    js.defer = true;
+    js.crossOrigin = 'anonymous';
+    js.src = 'https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v21.0';
+    document.body.appendChild(js);
   }
 
   /* ==============================================================
