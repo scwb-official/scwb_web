@@ -22,6 +22,7 @@
   <link rel="icon" type="image/png" href="img/icon.png">
 </head>
 <body class="is-home">
+  <div id="fb-root"></div>
 <div id="include-header"></div>
 
   <!-- ====================
@@ -33,7 +34,7 @@
       <div class="container hero-content">
         <p class="hero-eyebrow">SUWA CITY WIND BAND</p>
         <h1>諏訪の地に、<br>音楽を届けます。</h1>
-        <p class="hero-lead">1994年の発足から32年目。<br>年齢も職業もさまざまな仲間が集う、市民の吹奏楽団です。</p>
+        <p class="hero-lead">1994年の発足から33年目。<br>年齢も職業もさまざまな仲間が集う、市民の吹奏楽団です。</p>
         <div class="hero-actions">
           <a href="sindai.html" class="btn-primary btn-lg">新入団員募集 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
           <a href="concert/concert.html" class="btn-ghost btn-lg">コンサート情報</a>
@@ -43,11 +44,12 @@
     </section>
 
     <!-- 注目イベント（定期演奏会） -->
-    <section id="featured" class="featured fade-up">
+    <section id="featured" class="featured">
       <div class="container">
         <article class="featured-card">
-          <a href="teien/teien26.html" class="featured-media" tabindex="-1" aria-hidden="true">
-            <img src="teien/image/teien26_1.jpg" alt="" width="1200" height="1700" loading="lazy" decoding="async">
+          <a href="teien/image/teien26_1.jpg" class="featured-media" target="_blank" rel="noopener noreferrer">
+            <img src="teien/image/teien26_1.jpg" alt="第32回定期演奏会のポスター（クリックで拡大表示）" width="472" height="590" decoding="async">
+            <span class="featured-zoom" aria-hidden="true"><i class="fas fa-magnifying-glass-plus"></i> 拡大</span>
           </a>
           <div class="featured-body">
             <p class="featured-tag">PICK UP</p>
@@ -158,27 +160,27 @@
 
         <ul class="news-list news-list--home">
           <li class="news-item">
+            <span class="news-date">2026年11月02日</span>
+            <div class="news-title">
+              <a href="news/2026/20261102.html">総決起大会</a>
+            </div>
+          </li>
+          <li class="news-item">
+            <span class="news-date">2026年11月01日</span>
+            <div class="news-title">
+              <a href="news/2026/20261101.html">11月練習日程</a>
+            </div>
+          </li>
+          <li class="news-item">
+            <span class="news-date">2026年10月30日</span>
+            <div class="news-title">
+              <a href="news/2026/20261030.html">柿蔭山房 秋の演奏会</a>
+            </div>
+          </li>
+          <li class="news-item">
             <span class="news-date">2026年10月28日</span>
             <div class="news-title">
               <a href="news/2026/20261028.html">木管セクション練習</a>
-            </div>
-          </li>
-          <li class="news-item">
-            <span class="news-date">2026年10月19日</span>
-            <div class="news-title">
-              <a href="news/2026/20261019.html">上社の杜音楽祭</a>
-            </div>
-          </li>
-          <li class="news-item">
-            <span class="news-date">2026年10月11日</span>
-            <div class="news-title">
-              <a href="news/2026/20261011.html">2回目の日曜練習を行いました</a>
-            </div>
-          </li>
-          <li class="news-item">
-            <span class="news-date">2026年10月04日</span>
-            <div class="news-title">
-              <a href="news/2026/20261004.html">定期演奏会まで残り2ヶ月！</a>
             </div>
           </li>
         </ul>
@@ -203,8 +205,8 @@
             </div>
             <div class="instagram-posts">
               <div class="instagram-post">
-                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DeG9C2RpiIP/" data-instgrm-version="14" data-instgrm-captioned>
-                  <a href="https://www.instagram.com/p/DeG9C2RpiIP/" target="_blank" rel="noopener noreferrer">Instagramで投稿を見る</a>
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DfIzZ0YH4L3/" data-instgrm-version="14" data-instgrm-captioned>
+                  <a href="https://www.instagram.com/p/DfIzZ0YH4L3/" target="_blank" rel="noopener noreferrer">Instagramで投稿を見る</a>
                 </blockquote>
               </div>
               <div class="instagram-post">
@@ -240,10 +242,20 @@
           <div class="sns-card sns-card--fb">
             <h3>Facebook</h3>
             <div class="sns-frame">
-              <iframe id="fbPage"
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FSuwaCityWindBand&amp;tabs=timeline&amp;width=300&amp;height=500&amp;adapt_container_width=true"
-                title="諏訪市民吹奏楽団のFacebookページ"
-                loading="lazy" scrolling="no" allowfullscreen></iframe>
+              <!-- 個別投稿の埋め込み（js/script.js が公式 SDK を読み込んで描画）
+                   差し替えるときは data-href / cite / href の 3 か所を投稿 URL に書き換える -->
+              <div id="fbPosts" class="fb-posts">
+                <div class="fb-post" data-href="https://www.facebook.com/SuwaCityWindBand/posts/pfbid0wwk3hNkad1JvDtEweazGCFNWfJn5eot31JnYXNS3NTBiuHU9YYxpxF8hduUhCjHUl" data-width="auto" data-show-text="true">
+                  <blockquote cite="https://www.facebook.com/SuwaCityWindBand/posts/pfbid0wwk3hNkad1JvDtEweazGCFNWfJn5eot31JnYXNS3NTBiuHU9YYxpxF8hduUhCjHUl" class="fb-xfbml-parse-ignore">
+                    <a href="https://www.facebook.com/SuwaCityWindBand/posts/pfbid0wwk3hNkad1JvDtEweazGCFNWfJn5eot31JnYXNS3NTBiuHU9YYxpxF8hduUhCjHUl" target="_blank" rel="noopener noreferrer">Facebookの投稿を見る（定期演奏会に向けた総決起大会）</a>
+                  </blockquote>
+                </div>
+                <div class="fb-post" data-href="https://www.facebook.com/SuwaCityWindBand/posts/pfbid0VVT67L7woA8UbkXDcVsDyZbdC6NF7EjAB2TsudUcBKpgJ9iPLeakbZr7BB4xhYgel" data-width="auto" data-show-text="true">
+                  <blockquote cite="https://www.facebook.com/SuwaCityWindBand/posts/pfbid0VVT67L7woA8UbkXDcVsDyZbdC6NF7EjAB2TsudUcBKpgJ9iPLeakbZr7BB4xhYgel" class="fb-xfbml-parse-ignore">
+                    <a href="https://www.facebook.com/SuwaCityWindBand/posts/pfbid0VVT67L7woA8UbkXDcVsDyZbdC6NF7EjAB2TsudUcBKpgJ9iPLeakbZr7BB4xhYgel" target="_blank" rel="noopener noreferrer">Facebookの投稿を見る（11月の練習日程）</a>
+                  </blockquote>
+                </div>
+              </div>
             </div>
             <a href="https://www.facebook.com/SuwaCityWindBand"
               class="btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Facebookページへ">
