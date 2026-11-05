@@ -1018,19 +1018,30 @@ body.menu-open {
 }
 
 /* ── Facebook ─────────────────────────────────── */
-/* FB プラグインは実寸ピクセルでしか描画できないため、
-   幅は JS（js/script.js）が実測してセットする。ここでは箱だけ用意する。 */
+/* 個別投稿は公式 SDK が高さを自動調整する。
+   2 件並ぶと他のカードより長くなるため、枠内でスクロールさせる。 */
 .sns-card--fb .sns-frame {
-  max-width: 500px;
-  margin-inline: auto;
-  border-radius: var(--radius);
+  max-height: 640px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-border);
 }
 
-.sns-card--fb iframe {
+.fb-posts {
+  display: grid;
+  gap: 1rem;
+}
+
+/* 共通の .sns-frame iframe { height:100% } が SDK の高さ指定を潰さないよう戻す */
+.sns-card--fb .fb-post,
+.sns-card--fb .fb-post > span {
   display: block;
-  width: 100%;
-  height: 500px;      /* JS 未実行時のフォールバック */
-  margin-inline: auto;
+  width: 100% !important;
+}
+
+.sns-card--fb .sns-frame iframe {
+  height: auto;
 }
 
 @media (max-width: 900px) {
@@ -1666,7 +1677,7 @@ body.menu-open {
 
 .featured-card {
   display: grid;
-  grid-template-columns: minmax(0, 18rem) 1fr;
+  grid-template-columns: minmax(0, 22rem) 1fr;
   gap: clamp(1.5rem, 1rem + 2vw, 3rem);
   align-items: center;
   padding: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
@@ -1676,22 +1687,33 @@ body.menu-open {
 }
 
 .featured-media {
+  position: relative;
   display: block;
   overflow: hidden;
   border-radius: var(--radius);
-  aspect-ratio: 3 / 4;
+  /* ポスター（4:5）を切り取らずに全体を見せる */
+  aspect-ratio: 4 / 5;
   background: var(--color-surface-muted);
 }
 
 .featured-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s var(--ease-out);
+  object-fit: contain;
 }
 
-.featured-card:hover .featured-media img {
-  transform: scale(1.04);
+/* 拡大表示できることを示すラベル（ポスター自体は動かさない） */
+.featured-zoom {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  pointer-events: none;
 }
 
 .featured-tag {
@@ -1754,7 +1776,7 @@ body.menu-open {
 
 @media (max-width: 679.98px) {
   .featured-card { grid-template-columns: 1fr; }
-  .featured-media { aspect-ratio: 16 / 10; }
+  .featured-media { width: 100%; max-width: 22rem; margin-inline: auto; }
   .featured-meta > div { grid-template-columns: 4.5rem 1fr; }
 }
 
